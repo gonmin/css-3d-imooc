@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>transition</title>
+	<style type="text/css">
+		.box {
+			width: 200px;
+			height: 200px;
+			background: blue;
+			margin: 20px auto;
+			transition: width 3s, background 3s;
+		}
+		.box:hover {
+			background: red;
+			width: 400px;
+		}
+		.experiment {
+			-webkit-perspective: 800;
+			-webkit-perspective-origin: 50% 50%;
+			-webkit-transform-style: preserve-3d;
+		}
+		.block {
+			width: 800px;
+			height: 800px;
+			background-color: #69c;
+			margin: 10px auto;
+			transform: rotateX(45deg);
+		}
+
+		#my3dspace {
+			-webkit-perspective: 800;
+			-webkit-perspective-origin: 50% 50%;
+			overflow: hidden;
+		}
+		#pagegroup {
+			width: 400px;
+			height: 400px;
+			margin: 0 auto;
+			-webkit-transform-style: preserve-3d;
+			position: relative;
+		}
+		.page {
+			width: 300px;
+			height: 360px;
+			padding: 20px;
+			background-color: black;
+			color: #fff;
+			font-weight: bold;
+			font-size: 360px;
+			line-height: 360px;
+			text-align: center;
+			position: absolute;
+
+		}
+		.page1 {
+			transform-origin: bottom;
+			transition: transform 1s linear;
+		}
+		.page2,
+		.page3,
+		.page4,
+		.page5 {
+			transform-origin: bottom;
+			transition: transform 1s linear;
+			transform: rotateX(90deg);
+		}
+		#op {
+			text-align: center;
+			margin: 40px auto;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="experiment">
+		<div class="block">
+			
+		</div>
+	</div>
+	<div class="box"></div>
+	<div id="my3dspace">
+		<div id="pagegroup">
+			<div class="page page1">1</div>
+			<div class="page page2">2</div>
+			<div class="page page3">3</div>
+			<div class="page page4">4</div>
+			<div class="page page5">5</div>
+		</div>
+	</div>
+	<div id="op">
+		<a href="javascript:;" class="prev">prev</a>
+		<a href="javascript:;" class="next">next</a>
+	</div>
+	<script type="text/javascript">
+		var page = {
+			curIndex: 1,
+			curPage: function () {
+				return document.querySelector('.page' + this.curIndex);
+			},
+			nextPage: function () {
+				return document.querySelector('.page' + (this.curIndex + 1));
+			},
+			prevPage: function () {
+				return document.querySelector('.page' + (this.curIndex - 1));
+			},
+			init: function () {
+				this.bindEvent()
+			},
+			bindEvent: function () {
+				var _this = this;
+				var next = document.querySelector('.next');
+				next.addEventListener('click', function() {
+					_this.next();
+				}, false);
+
+				var prev = document.querySelector('.prev');
+				prev.addEventListener('click', function() {
+					_this.prev();
+				}, false)	
+
+			},
+			next: function() {
+				if (this.curIndex === 5) return;
+				this.curPage().style.transform = 'rotateX(-90deg)';
+
+				this.nextPage().style.transform = 'rotateX(0deg)';
+				this.curIndex++;
+
+			},
+			prev: function() {
+				if (this.curIndex === 1) return;
+				this.curPage().style.transform = 'rotateX(90deg)';
+				this.prevPage().style.transform = 'rotateX(0deg)';
+				this.curIndex--;
+
+			}
+		} 
+		page.init();
+	</script>
+</body>
+</html>
